@@ -4,12 +4,22 @@ import com.ryanbrauna.ktwebapi.models.Account
 import com.ryanbrauna.ktwebapi.repositories.AccountRepository
 import com.ryanbrauna.ktwebapi.services.AccountService
 import org.springframework.stereotype.Service
+import org.springframework.util.Assert
 import java.util.*
 
 @Service
 class AccountServiceImpl(private val repository: AccountRepository) : AccountService {
 
     override fun create(account : Account) : Account {
+        Assert.hasLength(account.name, "[nome] não pode estar em branco!")
+        Assert.isTrue(account.name.length >= 5, "[nome] deve ter no minimo 5 caracteres!")
+
+        Assert.hasLength(account.document, "[document] não pode estar em branco!")
+        Assert.isTrue(account.document.length >= 5, "[document] deve ter no 11 caracteres!")
+
+        Assert.hasLength(account.phone, "[phone] não pode estar em branco!")
+        Assert.isTrue(account.phone.length >= 5, "[phone] deve ter no 11 caracteres!")
+
         return repository.save(account)
     }
 
